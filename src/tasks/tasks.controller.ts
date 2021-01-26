@@ -47,10 +47,13 @@ export class TasksController {
     return this.tasksService.updateTaskStatus(id, status);
   }
 
-  // @Put(':id')
-  // updateTask(@Param('id') id: string, @Body() updateTask: UpdateTaskDto): Task {
-  //   return this.tasksService.updateTask(id, updateTask);
-  // }
+  @Put(':id')
+  async updateTask(
+    @Param('id') id: string,
+    @Body() updateTask: UpdateTaskDto,
+  ): Promise<Task> {
+    return await this.tasksService.updateTask(id, updateTask);
+  }
 
   @Delete('/:id')
   async deleteTask(@Param('id') id: string): Promise<void> {

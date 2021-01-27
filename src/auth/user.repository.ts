@@ -16,22 +16,22 @@ export class UserRepository extends Repository<User> {
     const { username, password } = authCredentialsDto;
 
     const user = new User();
-    const response = () => {
-      return {
-        id: user.id,
-        username: user.username,
-      };
-    };
+
     user.username = username;
     user.salt = await bcrypt.genSalt();
     user.password = await this.hashPassword(password, user.salt);
 
     try {
       await user.save();
-      return response();
+      const response: UserResponseDto = {
+        id: user.id,
+        username: user.username,
+      };
+      console.log(response);
+      return response;
     } catch (error) {
       if ((error.codeno = 1062)) {
-        throw new ConflictException('Email is already exists');
+        throw new ConflictException('Email already exists');
       } else {
         console.log(error);
         throw new InternalServerErrorException();

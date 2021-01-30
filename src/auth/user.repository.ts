@@ -27,15 +27,11 @@ export class UserRepository extends Repository<User> {
         id: user.id,
         username: user.username,
       };
-      console.log(response);
       return response;
     } catch (error) {
-      if ((error.codeno = 1062)) {
+      if ((error.codeno = 1062))
         throw new ConflictException('Email already exists');
-      } else {
-        console.log(error);
-        throw new InternalServerErrorException();
-      }
+      else throw new InternalServerErrorException();
     }
   }
 
